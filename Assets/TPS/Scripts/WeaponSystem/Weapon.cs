@@ -2,6 +2,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.IO.LowLevel.Unsafe;
 
 public abstract class Weapon : MonoBehaviour
 {
@@ -9,15 +10,16 @@ public abstract class Weapon : MonoBehaviour
 
     public event Action<bool> PossibleToAttackChanged;
 
+    protected void RaisePossibleToAttackChanged(bool possibleToAttack)
+    {
+        PossibleToAttackChanged?.Invoke(possibleToAttack);
+    }
+
     public virtual float GetReloadProgress()
     {
         return 0;
     }
 
-    protected void RaisePossibleToAttackChanged(bool possibleToAttack)
-    {
-        PossibleToAttackChanged?.Invoke(possibleToAttack);
-    }
 
     public abstract void Attack();
 
@@ -26,5 +28,12 @@ public abstract class Weapon : MonoBehaviour
         
     }
 
-    public virtual void ResetReloadProgress() { }
+
+    public virtual void ResetReloadProgress()
+    {
+
+    }
+    
+        
+    
 }

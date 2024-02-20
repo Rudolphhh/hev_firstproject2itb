@@ -32,16 +32,11 @@ public abstract class RangedWeapon : Weapon
 
     public override void Attack()
     {
-        if(currentAmmo > 0 && fireCooldown <= 0 && reloadProgress <= 0) {
+        if(currentAmmo > 0 && fireCooldown <= 0 && reloadProgress <=0) {
             Shoot();
             fireCooldown = fireRate;
             currentAmmo--;
         }
-    }
-
-    public override float GetReloadProgress()
-    {
-        return reloadProgress / reloadTime;
     }
 
     private void Update()
@@ -49,18 +44,22 @@ public abstract class RangedWeapon : Weapon
         if(reloadProgress > 0)
         {
             reloadProgress -= Time.deltaTime;
-            if(reloadProgress <= 0) {
+            if(reloadProgress <= 0)
+            {
                 currentAmmo = maxAmmo;
                 RaisePossibleToAttackChanged(true);
             }
         }
 
-        if(Input.GetButtonDown("Reload"))
+        if (Input.GetButtonDown("Reload"))
         {
             reloadProgress = reloadTime;
-            RaisePossibleToAttackChanged(false);
-        }
 
+            RaisePossibleToAttackChanged(false);
+
+
+        }
+        
         fireCooldown -= Time.deltaTime;   
     }
 
@@ -69,6 +68,11 @@ public abstract class RangedWeapon : Weapon
         var bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         bullet.AddForce(bullet.transform.forward * 100, ForceMode.Impulse);
         Destroy(bullet.gameObject, 4);
+    }
+
+    public override float GetReloadProgress()
+    {
+        return reloadProgress / reloadTime;
     }
 
     public override void ResetReloadProgress()

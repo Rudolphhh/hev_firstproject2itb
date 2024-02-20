@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     Vector3 cameraRotation;
     Vector3 rotation;
-
+    public static bool isHit = false;
     [SerializeField] Transform cameraHolder;
     [SerializeField] Transform groundChecker;
 
@@ -27,14 +27,26 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         rb = GetComponent<Rigidbody>();
     }
+    internal static void GameOver()
+    {
+        Debug.Log("DED");
+    }
 
     // Update is called once per frame
     void Update() {
         CheckGrounded();
         DoRotation();
         DoMovement();
+        if (isHit)
+        {
+            StartCoroutine(resetCooldownHit());
+        }
     }
-
+    IEnumerator resetCooldownHit()
+    {
+        yield return new WaitForSeconds(2);
+        isHit = false;
+    }
     void CheckGrounded()
     {
         if(Physics.Raycast(groundChecker.position, Vector3.down, 0.06f))
@@ -56,7 +68,7 @@ public class PlayerController : MonoBehaviour
             yMovement = jumpForce;
         }
 
-        // (0,0,1), 0,0,0.2 
+        
         var dir = new Vector3(side, 0, forward).normalized;
         var transformedDir = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0) * dir;
         
@@ -90,4 +102,5 @@ public class PlayerController : MonoBehaviour
     {
         rb.useGravity = false;
     }
+
 }

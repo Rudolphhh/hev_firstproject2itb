@@ -4,9 +4,16 @@ using UnityEngine;
 
 public interface IDamagable
 {
+
     int Hp { get; set; }
 
     void DoDmg(int dmg);
 
     void Die();
+
+
+
+
+
+
 }

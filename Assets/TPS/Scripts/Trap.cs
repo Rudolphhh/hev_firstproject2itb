@@ -8,10 +8,7 @@ public class Trap : MonoBehaviour
     {
         Debug.Log(collision);
         var player = collision.gameObject.GetComponent<PlayerController>();
-        if (player != null)
-        {
-            player.Degravitate();
-            Destroy(gameObject);
-        }
+        player.Degravitate();
+        Destroy(gameObject);
     }
 }
